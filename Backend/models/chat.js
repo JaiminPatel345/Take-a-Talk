@@ -1,13 +1,30 @@
-import { Timestamp } from 'bson'
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
+const TimeStamp = require('mongoose-timestamp')
+mongoose.plugin(TimeStamp)
 
 
-const ChatSchema = mongoose.Schema({
-    members: {
-        type: Array
+
+const chatSchema = mongoose.Schema({
+    chatName: {
+        type: String,
+    },
+    isGroupChat: {
+        type: Boolean,
+    },
+    users: [{
+        type: mongoose.Schema.ObjectId,
+        ref: "User"
+    }],
+    latestMessage: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Message"
+    },
+    groupAdmin: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User"
     },
     Timestamp: true
 })
 
-const chatModel = mongoose.model("chat", ChatSchema)
-export default chatModel
+const Chat = mongoose.model("chat", ChatSchema)
+module.exports = Chat; 

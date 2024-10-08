@@ -1,19 +1,27 @@
-import { Timestamp } from 'bson'
-import mongoose from 'mongoose'
-
+const mongoose = require('mongoose')
+const { Timestamp } = require('bson')
 
 const messageSchema = mongoose.Schema({
-    chatId: {
+    sender: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User"
+    },
+    content: {
         type: String,
     },
-    senderId: {
+    timestamp: {
+        type: Timestamp,
+        default: Date.now,
+    },
+    contest: {
         type: String,
     },
-    text: {
-        type: String,
+    chat: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Chat"
     },
-    Timestamp: true
 })
 
-const messageModel = mongoose.model("message", messageSchema)
-export default messageModel
+
+const Message = mongoose.model("message", messageSchema)
+module.exports = Message
